@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node* previous;
+} Node;
+
+void push(Node** node, int data){
+    Node* newNode = (Node*) malloc(sizeof(Node));
+    if (newNode == NULL)
+        return;
+        
+    newNode->data = data;
+    newNode->previous = *node;
+    *node = newNode;
+}
+
+void pop(Node** node){
+    if (*node == NULL)
+        return;
+    
+    Node* aux = *node;
+    
+    *node = (*node)->previous;
+    free(aux);
+}
+
+void printStack(Node* node){
+    
+    while(node != NULL){
+        printf("Data: %d\n",node->data);
+        node = node->previous;
+    }
+}
+
+int main()
+{
+    Node* node = NULL;
+    
+    push(&node, 10);
+    push(&node, 20);
+    push(&node, 30);
+    push(&node, 40);
+    
+    pop(&node);
+    pop(&node);
+    
+    printStack(node);
+    
+    return 0;
+}
