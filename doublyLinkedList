@@ -1,0 +1,122 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef struct node{
+    int data;
+    struct node* next;
+    struct node* previous;
+} Node;
+
+typedef struct list{
+    Node* first;
+    Node* last;
+    int size;
+} List;
+
+List* listInit(){
+    List* newList = (List*) malloc(sizeof(List));
+        if (newList == NULL)
+            return NULL;
+    
+    newList->first = NULL;
+    newList->last = NULL;
+    newList->size = 0;
+    return newList;
+}
+//last
+void insertTail(List* list, int data){
+    
+    Node* newNode = (Node*) malloc(sizeof(Node));
+    if (newNode == NULL)
+        return;
+    
+    newNode->data = data;
+    newNode->next = NULL;
+    
+    
+    if (list->last == NULL){
+        newNode->previous = NULL;
+        list->first = newNode;
+        list->last = newNode;
+        list->size++;
+        return;
+    }
+    
+    list->last->next = newNode;
+    newNode->previous = list->last;
+    list->last = newNode;
+    list->size++;
+    return;
+}
+//first
+void insertHead(List* list, int data){
+    Node* newNode = (Node*) malloc(sizeof(Node));
+    if (newNode == NULL)
+        return;
+        
+    newNode->data = data;
+    newNode->previous = NULL;
+        
+    if( list->first == NULL){
+        newNode->next = NULL;
+        
+        list->first = newNode;
+        list->last = newNode;
+        list->size++;
+        return;
+    }
+    
+    newNode->next = list->first;
+    list->first->previous = newNode;
+    
+    list->first = newNode;
+    list->size++;
+}
+
+void printList(List* list){
+    if (list->first != NULL){
+        
+        Node* nodeToPrint = list->first;
+        
+        while(nodeToPrint != NULL){
+            printf("Data: %d\n", nodeToPrint->data);
+            nodeToPrint = nodeToPrint->next;
+        }
+    }
+}
+
+void deleteList(List** list){
+    
+    if (*list != NULL){
+         Node* nodeToDelete;
+        Node* aux = (*list)->first;
+    
+        while(aux != NULL){
+        
+            nodeToDelete = aux;
+            aux = aux->next;
+            free(nodeToDelete);
+        }
+        free(*list);
+    
+        *list = NULL;
+    }
+   
+}
+
+
+int main()
+{
+    List* list = listInit();
+    
+    insertHead(list, 10);
+    insertTail(list, 20);
+    insertTail(list, 30);
+    insertTail(list, 40);
+    insertHead(list, 0);
+    
+    printList(list);
+    
+    deleteList(&list);
+    return 0;
+}
