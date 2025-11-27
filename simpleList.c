@@ -6,6 +6,17 @@ typedef struct node
     int data;
     struct node* next;
 } Node;
+//first
+void InsertHead(Node** node, int data){
+    Node* newNode = (Node*) malloc(sizeof(Node));
+    if (newNode == NULL)
+        return;
+    
+    newNode->data = data;
+    newNode->next = *node;
+    
+    *node = newNode;
+}
 
 void InsertEnd(Node** node, int data){
     Node* newNode = (Node*) malloc(sizeof(Node));
@@ -53,15 +64,6 @@ void updateData(Node* node, int oldData, int newData){
             return;
             
     nodeToChage->data = newData;
-}
-
-void InsertBeginning(Node** node, int data){
-    Node* newNode = (Node*) malloc(sizeof(Node));
-    
-    newNode->data = data;
-    
-    newNode->next = *node;
-    *node = newNode;
 }
 
 void printList(Node* node){
